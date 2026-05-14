@@ -1,26 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #F7F5F0;
+  --surface: #FFFFFF;
+  --text-primary: #111111;
+  --text-secondary: #888888;
+  --text-devil: #C0392B;
+  --border: #E5E2DB;
+  --border-strong: #D0CCC4;
+  --font-display: 'Instrument Serif', serif;
+  --font-mono: 'Geist Mono', monospace;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg);
+  --color-foreground: var(--text-primary);
+  --color-devil: var(--text-devil);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-secondary: var(--text-secondary);
+  --font-sans: var(--font-mono);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Page label */
+.page-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+}
+
+/* Section labels */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-secondary);
+}
+
+.section-label--devil {
+  color: var(--text-devil);
+}
+
+/* Devil's text */
+.devil-text {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 1.65;
+  color: var(--text-primary);
+}
+
+/* User input text */
+.user-text {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+/* Round indicator */
+.round-indicator {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* Textarea */
+.debate-textarea {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 16px;
+  width: 100%;
+  resize: none;
+  outline: none;
+  overflow: hidden;
+  line-height: 1.6;
+  transition: border-color 0.15s ease;
+}
+
+.debate-textarea:focus {
+  border-color: var(--border-strong);
+}
+
+.debate-textarea::placeholder {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* Submit button */
+.submit-btn {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: color 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.submit-btn:hover {
+  color: var(--text-devil);
+}
+
+.submit-btn:hover .submit-arrow {
+  transform: translateX(4px);
+}
+
+.submit-btn:disabled {
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+
+.submit-btn:disabled:hover .submit-arrow {
+  transform: none;
+}
+
+.submit-arrow {
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+
+/* Separator */
+.debate-separator {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+/* Blinking cursor for loading state */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.blinking-cursor {
+  display: inline;
+  animation: blink 1s step-end infinite;
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--text-primary);
+}
+
+/* Devil label fade in */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 200ms ease-in forwards;
+}
+
+/* Character count warning */
+.char-warning {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-devil);
+  margin-top: 4px;
+}
+
+/* Rate limit gate */
+.rate-limit-gate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 24px;
+}
+
+.rate-limit-message {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--text-primary);
+  line-height: 1.6;
+  text-transform: lowercase;
+}
+
+.rate-limit-countdown {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 24px;
+  letter-spacing: 0.08em;
+}
+
+/* End state message */
+.end-message {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 24px 0;
+  line-height: 1.6;
+}
+
+/* Error message */
+.error-message {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-devil);
+  padding: 8px 0;
 }
